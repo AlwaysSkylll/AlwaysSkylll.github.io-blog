@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+
+    
+
+    
+
+    <title>行为验证防抓包 | 高大炮儿</title>
+    <meta name="author" content="John Doe" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="之前做了一个网页表格导出excel 的数据抓取功能，原因是当前网站没有入口把数据导出。然后用上了 1、egg.js做服务端（现成的日志系统和异常重启） 2、natapp做内网穿透（域名是动态，隔几天会变） 3、excel4node 做表格导出（批量下载表格里的图片到本地，再插入本地图片到sheet表里） 第一步就是用node去拉去列表数据，发现一开始可以拉取，后面就报错异常操作，然后冷静了一天，第二天工作之余去看了他们的页面，看到每次获取数据前有一个类似上报的接口请求，查看详情发现里面有记录类似" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
+    
+    
+    <link rel="icon" href="/images/favicon.ico">
+    
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'icomoon';
+        src: url("/fonts/icomoon.eot?q628ml");
+        src: url("/fonts/icomoon.eot?q628ml#iefix") format('embedded-opentype'),
+             url("/fonts/icomoon.ttf?q628ml") format('truetype'),
+             url("/fonts/icomoon.woff?q628ml") format('woff'),
+             url("/fonts/icomoon.svg?q628ml#icomoon") format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    </style>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+
+    <!--[if lt IE 9]><style type="text/css">.nav-inner {top:0;}.author-meta {position:static;top:0;}.search-form {height:36px;}</style><script type="text/javascript" src="https://unpkg.com/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+    <main class="app">
+        <header id="header" class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">高大炮儿</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://alwaysskylll.github.io"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">1.</span> <span class="toc-text">总结：</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content">
+            <div id="wrapper" class="wrapper" style="max-width: 800px">
+                <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            行为验证防抓包
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/2022/08/31/datafetch/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2022-08-31T03:09:12.000Z" itemprop="datePublished">2022-08-31</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>之前做了一个网页表格导出excel 的数据抓取功能，原因是当前网站没有入口把数据导出。</p>
+<p>然后用上了</p>
+<p> 1、egg.js做服务端（现成的日志系统和异常重启）<br> 2、natapp做内网穿透（域名是动态，隔几天会变）<br> 3、excel4node 做表格导出（批量下载表格里的图片到本地，再插入本地图片到sheet表里）</p>
+<p> 第一步就是用node去拉去列表数据，发现一开始可以拉取，后面就报错异常操作，然后冷静了一天，第二天工作之余去看了他们的页面，看到每次获取数据前有一个类似上报的接口请求，查看详情发现里面有记录类似行为的东西</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;[&#123;&quot;events&quot;:[&#123;&quot;event&quot;:&quot;onload&quot;,&quot;params&quot;:&quot;&#123;\&quot;app_id\&quot;:29 ...</span></span><br></pre></td></tr></table></figure>
+<p> 然后直接右键请求把接口复制cURL的请求格式，存放到bash里用curl命令去模拟用户行为的接口，把cookie数据也能一起拿出来很方便</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">result=<span class="string">&quot;<span class="subst">$(curl &#x27;https://mcs.zijieapi.com/list&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> -H &#x27;authority: mcs.zijieapi.com&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> -H &#x27;accept: */*&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> ...</span></span></span><br><span class="line"><span class="subst"><span class="string"> --compressed)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"> <span class="built_in">echo</span> <span class="variable">$&#123;result&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 然后继续模拟修改分页行数的行为，拉取服务器允许的最大条数100条数据，这样就完成了第一步。</p>
+<p> 后面的难度就不大了。</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>  · 一开始就用了node做了一个本地功能然后用上 pkg 的插件做一个跨端的打包功能<br>  后来版本bug 更新多，加上excel4node 在win10打包后闪退，日志不能随时查看到（使用端是别人）<br>  所以考虑做个服务端，随时更新重启，随时查看日志</p>
+<p>  · 单纯的服务端接口，如果没有权限验证，很容易被人盗用爬取数据，所以用一个前置行为约束接口权限是一种相对更安全的做法，在行为里加入时间戳，点击位置等参数，更严格控制是否是真人行为(和滑动验证码异曲同工)</p>
+
+        
+    </section>
+</article>
+
+
+
+<a id="pagenext" href="/2022/06/02/threejs/" class="article-next" title="threejs"><i class="icon-arrow-right"></i></a>
+
+
+<a id="pageprev" href="/2022/09/13/%E5%85%BC%E5%AE%B9/" class="article-prev" title="一些兼容问题"><i class="icon-arrow-left"></i></a>
+
+
+
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "6d92c1cc24c6e255743b",
+        clientSecret: "1ac3f7bf02a93e988d11779b9148bc87abb9afaf",
+        repo: "alwaysskylll.github.io",
+        owner: "alwaysskylll",
+        admin: ["alwaysskylll"],
+        id: "335e506236efc89e447c93ade7c405fc",
+        distractionFreeMode: true,
+        title: "行为验证防抓包",
+        body: "https://alwaysskylll.github.io/2022/08/31/datafetch/",
+        labels: []
+    }).render('comments');
+    </script>
+</div>
+
+
+
+            </div>
+        </div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?f332c2215239a5e7629698d654e14e11";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://unpkg.com/jquery@1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle('normal', slideDone);
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp('normal', slideDone);
+            }, 3000);
+        }
+
+        function slideDone() {
+            if (nodes.navInner.css('display') !== 'none') {
+                nodes.navInner.css('display', '');
+            }
+        }
+
+        $(window).on('resize', function() {
+            if ($(this).width() > 960) {
+                nodes.navInner.css('display', '');
+            }
+        });
+    });
+    </script>
+    
+        
+<script src="/js/scrollspy.min.js"></script>
+
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+
+        $(window).on('resize', function() {
+            var hw = $('#header').width();
+            var ww = $('#wrapper').width();
+            var space = ($(this).width() - hw - ww) / 2 / 2;
+
+            var pageprev = $('#pageprev');
+            var pagenext = $('#pagenext');
+            var avg = (pageprev.width() + pagenext.width()) / 2
+
+            if(space > avg) {
+                var len = space - avg / 2;
+                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
+                pageprev.css($.extend({left: hw + len}, styles));
+                pagenext.css($.extend({right: len}, styles));
+            } else {
+                pageprev.removeAttr('style');
+                pagenext.removeAttr('style');
+            }
+        }).trigger('resize');
+        </script>
+    
+
+</body>
+</html>
