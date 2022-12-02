@@ -7,10 +7,10 @@
 
     
 
-    <title>mysql | 高大炮儿</title>
+    <title>高大炮儿</title>
     <meta name="author" content="John Doe" />
     <meta name="keywords" content="" />
-    <meta name="description" content="1、查看数据文件存储目录1mysqladmin -u root -p variables | grep datadir&amp;#x2F;usr&amp;#x2F;local&amp;#x2F;etc&amp;#x2F;my.cnf1bind-address = 127.0.0.1 // 只允许本地访问2、重启mysql(brew 安装的)launchctl unload -w &amp;#x2F;usr&amp;#x2F;local&amp;#x2F;Cellar&amp;#x2F;mysql&amp;#x2F;5.7.18_1&amp;#x2F;homebrew.mxc" />
+    <meta name="description" content="" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 
@@ -50,7 +50,7 @@
 
     <nav id="nav-inner" class="nav-inner">
         
-            <a class="nav-item" href="/">
+            <a class="nav-item active" href="/">
                 <span class="nav-text">首页</span>
             </a>
         
@@ -66,8 +66,6 @@
     <div id="aside-inner" class="aside-inner">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://alwaysskylll.github.io"></form>
 
-        
-        
         
         
 
@@ -122,20 +120,21 @@
 
         <div id="content" class="content">
             <div id="wrapper" class="wrapper" style="max-width: 800px">
-                <article class="article" itemscope itemprop="blogPost">
+                
+    <article class="article" itemscope itemprop="blogPost">
     
     <header class="article-header">
         
         <h1 itemprop="name">
-            mysql
+            <a href="/2019/03/17/%E6%97%A5%E8%AE%B02019-3-17/">日记2019.3.17</a>
         </h1>
         
         <div class="article-meta clearfix">
-            <a class="article-date" href="https://alwaysskylll.github.io/2019/07/24/mysql/index.html">
+            <a class="article-date" href="https://alwaysskylll.github.io/page/4/index.html">
     
     <i class="icon-calendar vm"></i>
     
-    <time class="vm" datetime="2019-07-24T04:12:45.000Z" itemprop="datePublished">2019-07-24</time>
+    <time class="vm" datetime="2019-03-17T06:35:27.000Z" itemprop="datePublished">2019-03-17</time>
 </a>
 
             
@@ -145,35 +144,8 @@
     
     <section class="article-body markdown-body">
         
-        <p>1、查看数据文件存储目录</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin -u root -p variables | grep datadir</span><br></pre></td></tr></table></figure>
-
-
-<p>&#x2F;usr&#x2F;local&#x2F;etc&#x2F;my.cnf</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bind-address = 127.0.0.1 // 只允许本地访问</span><br></pre></td></tr></table></figure>
-
-<p>2、重启mysql(brew 安装的)</p>
-<ul>
-<li><p>launchctl unload -w &#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;mysql&#x2F;5.7.18_1&#x2F;homebrew.mxcl.mysql.plist</p>
-</li>
-<li><p>launchctl load -w &#x2F;usr&#x2F;local&#x2F;Cellar&#x2F;mysql&#x2F;5.7.18_1&#x2F;homebrew.mxcl.mysql.plist</p>
-</li>
-<li><p>mysql.server restart</p>
-</li>
-<li><p>mysql.server stop&#x2F;mysql.server start</p>
-</li>
-</ul>
-<p>3、mysql 5.7 + ssl 需要配置</p>
-<p>安装时需要运行 </p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/mysql_ssl_rsa_setup</span><br></pre></td></tr></table></figure>
-
-<p>会在datadir 里新建ssl证书</p>
-<p>4、mysql 授权命令</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">grant</span> <span class="keyword">all</span> privileges <span class="keyword">on</span> pipe.<span class="operator">*</span> <span class="keyword">to</span> yyyyyy@<span class="string">&#x27;%&#x27;</span> identified <span class="keyword">by</span> <span class="string">&#x27;xxxxxx&#x27;</span>;</span><br><span class="line"><span class="operator">/</span><span class="operator">/</span> yyyyyy 操作pipe 数据库的所有权限 密码为 xxxxxx</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/crxis/p/7044582.html">https://www.cnblogs.com/crxis/p/7044582.html</a></p>
-</blockquote>
+        <p>  年后请了两天年假，和一家四口人一起去西安玩了三天四夜，很开心。<br>  这次主意的发起人是姐姐，年初看到西安的优惠票200多一个人，然后我想我们一家几乎从来没有一起出去玩过，我也帮衬着一起出钱买票定民宿。我和别人出去我一般会做一些路书，查询值得去的旅游景点，安排行程。但是和我姐姐，她总是喜欢帮家里人安排事情，我也不好插手，一个我自己没有去这么远的经验而姐姐说曾经和大姐姐去过，二是怕有分歧，耽误时间去处理。而且我也很信任她，希望没有给她压力。</p>
+<p>  姐姐凌晨安排了送机车，我们2点多起床出门，取票检票进站安检，突然检票员问我们名字到底是什么，我才知道姐姐买票时候用了郁高勇，而我高中时候老妈就偷偷把户口本改成了高勇…那时候我就很长时间心情不好…然后起飞15分钟内马上去人工花了500重新买了一张，赶上了飞机，好怕错过这第一次一家四口的出行。<br>  到了那里按照姐姐安排的计划，第一天逛了两个吃东西的地方，永兴坊和回民街，下午还去了西安历史博物馆，请了讲解，大家逛了快2个小时的时候都很困了，老妈五官都紧急集合了。然后晚上回民街吃了一家就回民宿睡觉了。老爸对民宿很满意，厨房里自己烧东西吃，加上一瓶白酒，我们对小区附近的一家肉夹馍很是喜欢。第二天早晨也起床给大家做了一锅茶叶蛋，出发去兵马俑坑。</p>
 
         
     </section>
@@ -181,31 +153,10 @@
 
 
 
-<a id="pagenext" href="/2019/07/24/flutter/" class="article-next" title="flutter android studio 配置 小记"><i class="icon-arrow-right"></i></a>
 
-
-<a id="pageprev" href="/2019/07/25/miniprogram2/" class="article-prev" title="小程序坑"><i class="icon-arrow-left"></i></a>
-
-
-
-<div class="comments">
-    <div id="comments"></div>
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
-    new Gitalk({
-        clientID: "6d92c1cc24c6e255743b",
-        clientSecret: "1ac3f7bf02a93e988d11779b9148bc87abb9afaf",
-        repo: "alwaysskylll.github.io",
-        owner: "alwaysskylll",
-        admin: ["alwaysskylll"],
-        id: "f4997a1c6d8d378c07077c61f4b4a463",
-        distractionFreeMode: true,
-        title: "mysql",
-        body: "https://alwaysskylll.github.io/2019/07/24/mysql/",
-        labels: []
-    }).render('comments');
-    </script>
-</div>
+<nav class="page-nav">
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+</nav>
 
 
 
@@ -282,33 +233,6 @@
         });
     });
     </script>
-    
-        
-<script src="/js/scrollspy.min.js"></script>
-
-        <script type="text/javascript">
-        $(document.body).scrollspy({target: '#aside-inner'});
-
-        $(window).on('resize', function() {
-            var hw = $('#header').width();
-            var ww = $('#wrapper').width();
-            var space = ($(this).width() - hw - ww) / 2 / 2;
-
-            var pageprev = $('#pageprev');
-            var pagenext = $('#pagenext');
-            var avg = (pageprev.width() + pagenext.width()) / 2
-
-            if(space > avg) {
-                var len = space - avg / 2;
-                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
-                pageprev.css($.extend({left: hw + len}, styles));
-                pagenext.css($.extend({right: len}, styles));
-            } else {
-                pageprev.removeAttr('style');
-                pagenext.removeAttr('style');
-            }
-        }).trigger('resize');
-        </script>
     
 
 </body>

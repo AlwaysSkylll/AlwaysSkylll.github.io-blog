@@ -126,6 +126,45 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/2022/12/02/docker%E5%90%AF%E5%8A%A8%E8%87%AA%E5%B8%A6k8s/">docker启动自带k8s</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2022-12-02T03:45:45.000Z" itemprop="datePublished">2022-12-02</time>
+</a>
+
+            
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>通过docker 设置面板的 k8s 选项安装启动images 后。</p>
+<p>1、需要创建dashboard 可视化面板</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create -f https://github.com/kubernetes/dashboard/tree/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</span><br></pre></td></tr></table></figure>
+
+<p>2、获取token登陆用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk &#x27;&#123;print $1&#125;&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>3、启动 proxy 打开dashboard</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl proxy</span><br></pre></td></tr></table></figure>
+
+
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/2022/11/28/%E8%A1%8C%E4%B8%BA%E9%AA%8C%E8%AF%81%E9%98%B2%E6%8A%93%E5%8C%852/">行为验证防抓包2</a>
         </h1>
         
@@ -433,40 +472,10 @@
 </article>
 
 
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/2019/09/09/npm/">npm 服务器下载依赖权限不够</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="https://alwaysskylll.github.io/index.html">
-    
-    <i class="icon-calendar vm"></i>
-    
-    <time class="vm" datetime="2019-09-09T04:23:42.000Z" itemprop="datePublished">2019-09-09</time>
-</a>
-
-            
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>npm install  –unsafe-perm</p>
-
-        
-    </section>
-</article>
-
-
 
 
 <nav class="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
 </nav>
 
 
