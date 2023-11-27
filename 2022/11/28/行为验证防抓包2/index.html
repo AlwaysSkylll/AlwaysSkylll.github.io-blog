@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+
+    
+
+    
+
+    <title>行为验证防抓包2 | 高大炮儿</title>
+    <meta name="author" content="高大炮儿" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="问题之前去拉取人家网站的分页数据导出成excel，提到一开始就用了node做了一个本地功能然后用上 pkg 的插件做一个跨端的打包功能  后来版本bug 更新多，加上excel4node 在win10打包后闪退，日志不能随时查看到（使用端是别人）  所以考虑做个服务端，随时更新重启，随时查看日志解决过程前几天发现网站接口貌似升级过了，然后我重新着手排查了这个问题，最后找到原来是windows没有原生支持 bash 命令，但是git cmd是支持的，所以这个问题windows下开发时候没有察觉，打" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+
+    
+    
+    <link rel="icon" href="/blog/images/favicon.ico">
+    
+
+    <style type="text/css">
+    @font-face {
+        font-family: 'icomoon';
+        src: url("/blog/fonts/icomoon.eot?q628ml");
+        src: url("/blog/fonts/icomoon.eot?q628ml#iefix") format('embedded-opentype'),
+             url("/blog/fonts/icomoon.ttf?q628ml") format('truetype'),
+             url("/blog/fonts/icomoon.woff?q628ml") format('woff'),
+             url("/blog/fonts/icomoon.svg?q628ml#icomoon") format('svg');
+        font-weight: normal;
+        font-style: normal;
+    }
+    </style>
+    
+<link rel="stylesheet" href="/blog/css/style.css">
+
+
+    <!--[if lt IE 9]><style type="text/css">.nav-inner {top:0;}.author-meta {position:static;top:0;}.search-form {height:36px;}</style><script type="text/javascript" src="https://unpkg.com/html5shiv@3.7.3/dist/html5shiv.min.js"></script><![endif]-->
+<meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+
+    <main class="app">
+        <header id="header" class="header clearfix">
+    <div id="nav" class="nav">
+    <div class="nav-mobile">
+        <button id="open-panel" class="open-panel nav-mobile-item"><i class="icon-documents"></i></button>
+        <h1 class="nav-mobile-title nav-mobile-item">高大炮儿</h1>
+        <button id="open-menus" class="open-panel nav-mobile-item"><i class="icon-library"></i></button>
+    </div>
+
+    <nav id="nav-inner" class="nav-inner">
+        
+            <a class="nav-item" href="/blog/">
+                <span class="nav-text">首页</span>
+            </a>
+        
+            <a class="nav-item" href="/blog/archives">
+                <span class="nav-text">归档</span>
+            </a>
+        
+    </nav>
+</div>
+
+    <aside id="aside" class="aside">
+    <div id="aside-mask" class="aside-mask"></div>
+    <div id="aside-inner" class="aside-inner">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://alwaysskylll.github.io/blog"></form>
+
+        
+        
+        
+        
+
+        
+        <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E8%BF%87%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">解决过程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E6%9E%9C"><span class="toc-number">3.</span> <span class="toc-text">结果</span></a></li></ol>
+        
+    </div>
+</aside>
+
+</header>
+
+        <div id="content" class="content">
+            <div id="wrapper" class="wrapper" style="max-width: 800px">
+                <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            行为验证防抓包2
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/2022/11/28/%E8%A1%8C%E4%B8%BA%E9%AA%8C%E8%AF%81%E9%98%B2%E6%8A%93%E5%8C%852/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2022-11-28T01:30:47.000Z" itemprop="datePublished">2022-11-28</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><p>之前去拉取人家网站的分页数据导出成excel，提到</p>
+<blockquote>
+<p>一开始就用了node做了一个本地功能然后用上 pkg 的插件做一个跨端的打包功能<br>  后来版本bug 更新多，加上excel4node 在win10打包后闪退，日志不能随时查看到（使用端是别人）<br>  所以考虑做个服务端，随时更新重启，随时查看日志</p>
+</blockquote>
+<h4 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h4><p>前几天发现网站接口貌似升级过了，然后我重新着手排查了这个问题，最后找到原来是windows没有原生支持 bash 命令，但是git cmd是支持的，所以这个问题windows下开发时候没有察觉，打包后调用了默认cmd就闪退。</p>
+<p>然后查了很多，下载bash需要开启 Windows Linux 子系统 (WSL)，或者安装一些软件设置系统路径。换个思路 写batch 又不会写。</p>
+<p>后来想了下，既然我bash里只有curl 命令，那我直接调用curl就行了，查了下windows可以下载curl的可执行文件，果然下载后支持node 用 childprocess 去调用。</p>
+<p>然后又碰到了坑点，就是<br>1、linux、mac的curl里换行符是 \ , windows 好像是 ^<br>2、linux、mac的curl里字付串是用单引号，嵌套字符串里面包着双引号， 然后windows好像是只支持双引号，里面双引号用斜杠转义。</p>
+<h4 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">module.exports = (time) =&gt; `curl.exe -k &quot;https://xxx.com/v1/list&quot; -H &quot;authority: xxx.com&quot; -H &quot;accept: */*&quot; -H ...</span><br></pre></td></tr></table></figure>
+
+<p>最后就全局把 shell 脚本引号替换，删除换行，调用成功。 到此pkg打包的exe，和curl.exe放在同一个目录下，就能正确执行了。</p>
+<p>解决问题还是要多排查，并且练好基本功啊！！不然就 stuck 了 ！！</p>
+
+        
+    </section>
+</article>
+
+
+
+<a id="pagenext" href="/blog/2022/10/27/%E9%87%8D%E6%9E%84%E5%B0%8F%E8%AE%B0/" class="article-next" title="项目重构小记"><i class="icon-arrow-right"></i></a>
+
+
+<a id="pageprev" href="/blog/2022/12/02/docker%E5%90%AF%E5%8A%A8%E8%87%AA%E5%B8%A6k8s/" class="article-prev" title="docker启动自带k8s"><i class="icon-arrow-left"></i></a>
+
+
+
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "6d92c1cc24c6e255743b",
+        clientSecret: "1ac3f7bf02a93e988d11779b9148bc87abb9afaf",
+        repo: "alwaysskylll.github.io",
+        owner: "alwaysskylll",
+        admin: ["alwaysskylll"],
+        id: "c69cac296692f22211b6fed1b1b6c6e9",
+        distractionFreeMode: true,
+        title: "行为验证防抓包2",
+        body: "https://alwaysskylll.github.io/blog/2022/11/28/%E8%A1%8C%E4%B8%BA%E9%AA%8C%E8%AF%81%E9%98%B2%E6%8A%93%E5%8C%852/",
+        labels: ["开发"]
+    }).render('comments');
+    </script>
+</div>
+
+
+
+            </div>
+        </div>
+        <footer class="footer">
+    Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>, Theme by <a href="https://github.com/sanonz/hexo-theme-concise" target="_blank">Concise</a>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?f332c2215239a5e7629698d654e14e11";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+</footer>
+
+    </main>
+
+    <script type="text/javascript" src="https://unpkg.com/jquery@1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function() {
+        var nodes = {
+            nav: $('#nav'),
+            aside: $('#aside'),
+            asideInner: $('#aside-inner'),
+            navInner: $('#nav-inner')
+        };
+
+        var doing = false;
+        nodes.asideInner.on('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function() {
+            if (nodes.aside.hasClass('mobile-open')) {
+                nodes.aside.removeClass('mobile-open');
+            } else {
+                nodes.aside.removeClass('mobile-close panel-show');
+            }
+            doing = false;
+        });
+        $('#open-panel, #aside-mask').on('click', function() {
+            if (doing) {
+                return;
+            }
+
+            if (nodes.aside.hasClass('panel-show')) {
+                nodes.aside.addClass('mobile-close');
+            } else {
+                nodes.aside.addClass('mobile-open panel-show');
+            }
+        });
+        $('#open-menus').on('click', function() {
+            nodes.navInner.slideToggle('normal', slideDone);
+        });
+
+        if (window.innerWidth <= 960) {
+            setTimeout(function() {
+                nodes.navInner.slideUp('normal', slideDone);
+            }, 3000);
+        }
+
+        function slideDone() {
+            if (nodes.navInner.css('display') !== 'none') {
+                nodes.navInner.css('display', '');
+            }
+        }
+
+        $(window).on('resize', function() {
+            if ($(this).width() > 960) {
+                nodes.navInner.css('display', '');
+            }
+        });
+    });
+    </script>
+    
+        
+<script src="/blog/js/scrollspy.min.js"></script>
+
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+
+        $(window).on('resize', function() {
+            var hw = $('#header').width();
+            var ww = $('#wrapper').width();
+            var space = ($(this).width() - hw - ww) / 2 / 2;
+
+            var pageprev = $('#pageprev');
+            var pagenext = $('#pagenext');
+            var avg = (pageprev.width() + pagenext.width()) / 2
+
+            if(space > avg) {
+                var len = space - avg / 2;
+                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
+                pageprev.css($.extend({left: hw + len}, styles));
+                pagenext.css($.extend({right: len}, styles));
+            } else {
+                pageprev.removeAttr('style');
+                pagenext.removeAttr('style');
+            }
+        }).trigger('resize');
+        </script>
+    
+
+</body>
+</html>
