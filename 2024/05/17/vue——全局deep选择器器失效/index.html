@@ -7,10 +7,10 @@
 
     
 
-    <title>Archives | 高大炮儿</title>
+    <title>vue——全局deep选择器器失效 | 高大炮儿</title>
     <meta name="author" content="高大炮儿" />
     <meta name="keywords" content="" />
-    <meta name="description" content="描述儿空" />
+    <meta name="description" content="新版本safari，chrome，edge浏览器，全局import 的 less样式的deep选择器不会生效，发现需要scoped 的class 一起选择，局部dom标签带有 data-xx 的，才能生效。老版本80.0的chrome 就没这个问题，查询说chrome逐步移除原生deep的选择器。" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
 
@@ -54,7 +54,7 @@
                 <span class="nav-text">首页</span>
             </a>
         
-            <a class="nav-item active" href="/blog/archives">
+            <a class="nav-item" href="/blog/archives">
                 <span class="nav-text">归档</span>
             </a>
         
@@ -66,6 +66,8 @@
     <div id="aside-inner" class="aside-inner">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit"><i class="icon-search-stroke"></i></button><input type="hidden" name="sitesearch" value="https://alwaysskylll.github.io/blog"></form>
 
+        
+        
         
         
 
@@ -120,264 +122,66 @@
 
         <div id="content" class="content">
             <div id="wrapper" class="wrapper" style="max-width: 800px">
-                
-
-
+                <article class="article" itemscope itemprop="blogPost">
     
-    
-    
-    
-    
-    <section class="archives-wrap">
-    <div class="archive-year-wrap">
-    <a href="/blog/archives/2022" class="page-hd">
-        2022
-    </a>
-    </div>
-    <ol class="archives">
-    
-
-    <li class="archive-section-item">
+    <header class="article-header">
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2022/09/13/%E5%85%BC%E5%AE%B9/">一些兼容问题</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2022/09">
-    
-    <time class="vm" datetime="2022-09-13T04:27:47.000Z" itemprop="datePublished">9/13</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
+        <h1 itemprop="name">
+            vue——全局deep选择器器失效
+        </h1>
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2022/08/31/datafetch/">行为验证防抓包</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2022/08">
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/2024/05/17/vue%E2%80%94%E2%80%94%E5%85%A8%E5%B1%80deep%E9%80%89%E6%8B%A9%E5%99%A8%E5%99%A8%E5%A4%B1%E6%95%88/index.html">
     
-    <time class="vm" datetime="2022-08-31T03:09:12.000Z" itemprop="datePublished">8/31</time>
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2024-05-17T03:32:02.000Z" itemprop="datePublished">2024-05-17</time>
 </a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
 
-    
-    
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
 
-    <li class="archive-section-item">
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2022/06/02/threejs/">threejs</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2022/06">
-    
-    <time class="vm" datetime="2022-06-02T05:19:16.000Z" itemprop="datePublished">6/2</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
+        <p>新版本safari，chrome，edge浏览器，全局import 的 less样式的deep选择器不会生效，发现需要scoped 的class 一起选择，局部dom标签带有 data-xx 的，才能生效。老版本80.0的chrome 就没这个问题，查询说chrome逐步移除原生deep的选择器。</p>
 
-    
-    
-    
-    </ol></section>
-    
-    
-    
-    <section class="archives-wrap">
-    <div class="archive-year-wrap">
-    <a href="/blog/archives/2020" class="page-hd">
-        2020
-    </a>
-    </div>
-    <ol class="archives">
-    
-
-    <li class="archive-section-item">
         
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2020/08/03/sentry-docker/">sentry_docker</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2020/08">
-    
-    <time class="vm" datetime="2020-08-03T04:26:52.000Z" itemprop="datePublished">8/3</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
+    </section>
 </article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2020/01/17/js-map-foreach/">js_map_foreach</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2020/01">
-    
-    <time class="vm" datetime="2020-01-17T04:26:10.000Z" itemprop="datePublished">1/17</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-    
-    </ol></section>
-    
-    
-    
-    <section class="archives-wrap">
-    <div class="archive-year-wrap">
-    <a href="/blog/archives/2019" class="page-hd">
-        2019
-    </a>
-    </div>
-    <ol class="archives">
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2019/09/27/chrome/">mac chrome 全局关闭跨域</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2019/09">
-    
-    <time class="vm" datetime="2019-09-27T04:24:59.000Z" itemprop="datePublished">9/27</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2019/09/24/js%E5%B1%9E%E6%80%A7%E9%93%BE/">js属性链</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2019/09">
-    
-    <time class="vm" datetime="2019-09-24T04:14:03.000Z" itemprop="datePublished">9/24</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2019/09/09/npm/">npm 服务器下载依赖权限不够</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2019/09">
-    
-    <time class="vm" datetime="2019-09-09T04:23:42.000Z" itemprop="datePublished">9/9</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2019/08/13/vue-for/">vue_for</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2019/08">
-    
-    <time class="vm" datetime="2019-08-13T04:22:51.000Z" itemprop="datePublished">8/13</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-    
-    
-
-    <li class="archive-section-item">
-        
-<article class="archive-article archive-type-post">
-    <div class="archive-article-inner">
-        <header class="archive-article-header">
-            <a class="archive-article-link" href="/blog/2019/08/05/linux-mail2/">linux_mail2</a>
-            <span class="archive-article-date">
-                (<a class="article-date" href="/blog/archives/2019/08">
-    
-    <time class="vm" datetime="2019-08-05T04:21:02.000Z" itemprop="datePublished">8/5</time>
-</a>
-)
-            </span>
-        </header>
-    </div>
-</article>
-    </li>
-
-
-</ol></section>
 
 
 
-<nav class="page-nav">
-    <a class="extend prev" rel="prev" href="/blog/archives/page/2/">&laquo; Prev</a><a class="page-number" href="/blog/archives/">1</a><a class="page-number" href="/blog/archives/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/blog/archives/page/4/">4</a><a class="page-number" href="/blog/archives/page/5/">5</a><a class="extend next" rel="next" href="/blog/archives/page/4/">Next &raquo;</a>
-</nav>
+<a id="pagenext" href="/blog/2024/05/17/%E5%89%8D%E7%AB%AF%E4%BE%9D%E8%B5%96%E5%A4%9A%E7%89%88%E6%9C%AC%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%E5%86%B2%E7%AA%81%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8/" class="article-next" title="前端依赖多版本兼容问题冲突无法启动"><i class="icon-arrow-right"></i></a>
+
+
+
+
+<div class="comments">
+    <div id="comments"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+    new Gitalk({
+        clientID: "6d92c1cc24c6e255743b",
+        clientSecret: "1ac3f7bf02a93e988d11779b9148bc87abb9afaf",
+        repo: "alwaysskylll.github.io",
+        owner: "alwaysskylll",
+        admin: ["alwaysskylll"],
+        id: "e54ddf8a20f470bfed01137cc8f7b295",
+        distractionFreeMode: true,
+        title: "vue——全局deep选择器器失效",
+        body: "https://alwaysskylll.github.io/blog/2024/05/17/vue%E2%80%94%E2%80%94%E5%85%A8%E5%B1%80deep%E9%80%89%E6%8B%A9%E5%99%A8%E5%99%A8%E5%A4%B1%E6%95%88/",
+        labels: ["开发"]
+    }).render('comments');
+    </script>
+</div>
+
 
 
             </div>
@@ -453,6 +257,33 @@
         });
     });
     </script>
+    
+        
+<script src="/blog/js/scrollspy.min.js"></script>
+
+        <script type="text/javascript">
+        $(document.body).scrollspy({target: '#aside-inner'});
+
+        $(window).on('resize', function() {
+            var hw = $('#header').width();
+            var ww = $('#wrapper').width();
+            var space = ($(this).width() - hw - ww) / 2 / 2;
+
+            var pageprev = $('#pageprev');
+            var pagenext = $('#pagenext');
+            var avg = (pageprev.width() + pagenext.width()) / 2
+
+            if(space > avg) {
+                var len = space - avg / 2;
+                var styles = {position: 'fixed', top: '50%', marginTop: - (pageprev.width() + pagenext.width()) / 4}
+                pageprev.css($.extend({left: hw + len}, styles));
+                pagenext.css($.extend({right: len}, styles));
+            } else {
+                pageprev.removeAttr('style');
+                pagenext.removeAttr('style');
+            }
+        }).trigger('resize');
+        </script>
     
 
 </body>

@@ -126,6 +126,90 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/blog/2019/07/20/v-model%E7%9A%84%E9%97%AE%E9%A2%98/">v-model的问题</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/5/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2019-07-20T04:06:38.000Z" itemprop="datePublished">2019-07-20</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h3 id="Vue-坑"><a href="#Vue-坑" class="headerlink" title="Vue 坑"></a>Vue 坑</h3><p>1、 v-model 属性不能响应改变</p>
+<p>原因应该是data中的引用对象改变，导致watch监听的属性重新绑定，而新的tableData数据中没有needPush 字段，所以这个属性就不会响应，需要用$set添加属性</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">el-switch</span></span></span><br><span class="line"><span class="tag">  <span class="attr">v-model</span>=<span class="string">&quot;tableData.needPush&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">:active-value</span>=<span class="string">&quot;1&quot;</span> <span class="attr">:inactive-value</span>=<span class="string">&quot;0&quot;</span> <span class="attr">active-color</span>=<span class="string">&quot;#13ce66&quot;</span> <span class="attr">inactive-color</span>=<span class="string">&quot;#ff4949&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">el-switch</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="title function_">data</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      <span class="attr">labelPosition</span>: <span class="string">&#x27;right&#x27;</span>,</span><br><span class="line">      <span class="attr">value</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">tableData</span>: &#123;</span><br><span class="line">        <span class="attr">trainingName</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">subTitle</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">title</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">trainingHeadImg</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">courseCoverImg</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">status</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="attr">categoryId</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="attr">projectId</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="attr">description</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">courseCoverImg</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">trainingHeadImg</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">        <span class="attr">rank</span>: <span class="literal">null</span>,</span><br><span class="line">        <span class="attr">needPush</span>: <span class="number">0</span>, <span class="comment">// 声明了该属性</span></span><br><span class="line">      &#125;,</span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="title function_">created</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">getData</span>();</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">methods</span>: &#123;</span><br><span class="line">    <span class="title function_">getData</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> id = +<span class="variable language_">this</span>.<span class="property">$route</span>.<span class="property">query</span>.<span class="property">id</span>;</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">isNaN</span>(id)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">$axios</span>.<span class="title function_">get</span>(<span class="string">&#x27;course/management/detail&#x27;</span>, &#123; <span class="attr">params</span>: &#123; <span class="attr">courseId</span>: id &#125; &#125;)</span><br><span class="line">        .<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">tableData</span> = res.<span class="property">data</span>; <span class="comment">// 没有needpush 属性</span></span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">tableData</span>.<span class="property">needpush</span> = <span class="number">0</span>; <span class="comment">// 设置成功后使用switch 组件改变属性不响应，改变对象中其他属性，needpush 值改变？？？？</span></span><br><span class="line">            <span class="comment">// this.$set(this.tableData, &#x27;needPush&#x27;, 0);解决方法</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            <a href="/blog/2019/07/13/%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86/">权威指南中文第6版14.6——错误处理</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/5/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2019-07-13T04:04:51.000Z" itemprop="datePublished">2019-07-13</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <h2 id="javascript-权威指南中文第6版-14-6-错误处理"><a href="#javascript-权威指南中文第6版-14-6-错误处理" class="headerlink" title="javascript 权威指南中文第6版 14.6 错误处理"></a>javascript 权威指南中文第6版 14.6 错误处理</h2><h3 id="window-原生对象提供-onerror-处理函数"><a href="#window-原生对象提供-onerror-处理函数" class="headerlink" title="window 原生对象提供 onerror 处理函数"></a>window 原生对象提供 onerror 处理函数</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">onerror</span> = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">	<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="variable language_">arguments</span>, <span class="number">99999</span>)</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span> (<span class="string">&#x27;asdasdas&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &quot;file:///Users/yunggao/Desktop/untitled.html&quot;,</span><br><span class="line">    82,</span><br><span class="line">    9,</span><br><span class="line">    Error: asdasdas at file:///Users/yunggao/Desktop/untitled.html:82:9</span><br><span class="line">    message: &quot;asdasdas&quot;</span><br><span class="line">    stack: &quot;Error: asdasdas↵    at file:///Users/yunggao/Desktop/untitled.html:82:9&quot;</span><br><span class="line">]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该方法可以作为前端代码监控的基础入口。网上查阅相关实践，可能会出现一种跨域的情况：监控 js 作为外链，和应用的项目js处于不同域下，服务端需要添加跨域请求头，js标签添加 crossorigin 属性。查阅文档查看属性配置</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/script#%E5%B1%9E%E6%80%A7">https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/script#%E5%B1%9E%E6%80%A7</a></p>
+</blockquote>
+
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/blog/2019/05/30/eventloop/">eventloop</a>
         </h1>
         

@@ -126,6 +126,88 @@
     <header class="article-header">
         
         <h1 itemprop="name">
+            <a href="/blog/2022/09/13/%E5%85%BC%E5%AE%B9/">一些兼容问题</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/3/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2022-09-13T04:27:47.000Z" itemprop="datePublished">2022-09-13</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>1、iphone不支持 xxxx-xx-xx 的时间格式 需要替换成 &#x2F;</p>
+<p>2、videojs 在 iphone 14及以下版本中，更换播放地址后，loadmetadata以后使用currentTime 跳转时间戳前一两次会跳不过去，需要设置一个轮训判断是否跳转成功，否则继续调用</p>
+<p>3、微信支付，对接服务商，支付完成后会退出页面，可以开通点金计划，引导用户展示商家小票页面，跳回到原页面</p>
+
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
+            <a href="/blog/2022/08/31/datafetch/">行为验证防抓包</a>
+        </h1>
+        
+        <div class="article-meta clearfix">
+            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/3/index.html">
+    
+    <i class="icon-calendar vm"></i>
+    
+    <time class="vm" datetime="2022-08-31T03:09:12.000Z" itemprop="datePublished">2022-08-31</time>
+</a>
+
+            
+<div class="article-tag-list">
+    <i class="icon-tag vm"></i>
+    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
+</div>
+
+
+        </div>
+    </header>
+    
+    <section class="article-body markdown-body">
+        
+        <p>之前做了一个网页表格导出excel 的数据抓取功能，原因是当前网站没有入口把数据导出。</p>
+<p>然后用上了</p>
+<p> 1、egg.js做服务端（现成的日志系统和异常重启）<br> 2、natapp做内网穿透（域名是动态，隔几天会变）<br> 3、excel4node 做表格导出（批量下载表格里的图片到本地，再插入本地图片到sheet表里）</p>
+<p> 第一步就是用node去拉去列表数据，发现一开始可以拉取，后面就报错异常操作，然后冷静了一天，第二天工作之余去看了他们的页面，看到每次获取数据前有一个类似上报的接口请求，查看详情发现里面有记录类似行为的东西</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&#x27;[&#123;&quot;events&quot;:[&#123;&quot;event&quot;:&quot;onload&quot;,&quot;params&quot;:&quot;&#123;\&quot;app_id\&quot;:29 ...</span></span><br></pre></td></tr></table></figure>
+<p> 然后直接右键请求把接口复制cURL的请求格式，存放到bash里用curl命令去模拟用户行为的接口，把cookie数据也能一起拿出来很方便</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">result=<span class="string">&quot;<span class="subst">$(curl &#x27;https://mcs.zijieapi.com/list&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> -H &#x27;authority: mcs.zijieapi.com&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> -H &#x27;accept: */*&#x27; \</span></span></span><br><span class="line"><span class="subst"><span class="string"> ...</span></span></span><br><span class="line"><span class="subst"><span class="string"> --compressed)</span>&quot;</span></span><br><span class="line"></span><br><span class="line"> <span class="built_in">echo</span> <span class="variable">$&#123;result&#125;</span></span><br></pre></td></tr></table></figure>
+<p> 然后继续模拟修改分页行数的行为，拉取服务器允许的最大条数100条数据，这样就完成了第一步。</p>
+<p> 后面的难度就不大了。</p>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>  · 一开始就用了node做了一个本地功能然后用上 pkg 的插件做一个跨端的打包功能<br>  后来版本bug 更新多，加上excel4node 在win10打包后闪退，日志不能随时查看到（使用端是别人）<br>  所以考虑做个服务端，随时更新重启，随时查看日志</p>
+<p>  · 单纯的服务端接口，如果没有权限验证，很容易被人盗用爬取数据，所以用一个前置行为约束接口权限是一种相对更安全的做法，在行为里加入时间戳，点击位置等参数，更严格控制是否是真人行为(和滑动验证码异曲同工)</p>
+
+        
+    </section>
+</article>
+
+
+    <article class="article" itemscope itemprop="blogPost">
+    
+    <header class="article-header">
+        
+        <h1 itemprop="name">
             <a href="/blog/2022/06/02/threejs/">threejs</a>
         </h1>
         
@@ -431,87 +513,6 @@
 
 <p><strong>最后记得配置安全组 25 or 587 or …</strong></p>
 
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/blog/2019/08/03/linux-mail/">linux_mail</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/3/index.html">
-    
-    <i class="icon-calendar vm"></i>
-    
-    <time class="vm" datetime="2019-08-03T04:20:35.000Z" itemprop="datePublished">2019-08-03</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag vm"></i>
-    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p>在Linux系统下mail命令的测试</p>
-<ol>
-<li>最简单的一个例子：<br> mail -s test <a href="mailto:&#97;&#x64;&#109;&#105;&#x6e;&#64;&#97;&#x69;&#x73;&#112;&#x69;&#x64;&#x65;&#x72;&#46;&#x63;&#x6f;&#x6d;">&#97;&#x64;&#109;&#105;&#x6e;&#64;&#97;&#x69;&#x73;&#112;&#x69;&#x64;&#x65;&#x72;&#46;&#x63;&#x6f;&#x6d;</a><br>这条命令的结果是发一封标题为test的空信给后面的邮箱，如果你有mta并且后面的邮箱不会挡这种可能莫名奇妙的信的时候，就能收到这封信了。如果你不想被这种乱七八糟的事情干扰，后面的邮箱请使用本地帐户。 </li>
-<li>第二个例子：<br> 三种常用格式发信<br>mail -s test <a href="mailto:&#x61;&#100;&#109;&#x69;&#110;&#x40;&#97;&#105;&#115;&#112;&#105;&#100;&#101;&#x72;&#x2e;&#x63;&#111;&#109;">&#x61;&#100;&#109;&#x69;&#110;&#x40;&#97;&#105;&#115;&#112;&#105;&#100;&#101;&#x72;&#x2e;&#x63;&#111;&#109;</a> #第一种方法，你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束<br>echo “mail content”|mail -s test <a href="mailto:&#97;&#x64;&#x6d;&#x69;&#110;&#x40;&#97;&#x69;&#115;&#x70;&#105;&#x64;&#101;&#114;&#x2e;&#x63;&#x6f;&#x6d;">&#97;&#x64;&#x6d;&#x69;&#110;&#x40;&#97;&#x69;&#115;&#x70;&#105;&#x64;&#101;&#114;&#x2e;&#x63;&#x6f;&#x6d;</a> #第二种方法，我用的最多，可能是喜欢管道的缘故吧<br>mail -s test <a href="mailto:&#x61;&#x64;&#109;&#105;&#110;&#64;&#97;&#105;&#115;&#x70;&#x69;&#x64;&#x65;&#x72;&#46;&#x63;&#111;&#x6d;">&#x61;&#x64;&#109;&#105;&#110;&#64;&#97;&#105;&#115;&#x70;&#x69;&#x64;&#x65;&#x72;&#46;&#x63;&#111;&#x6d;</a>&lt; file #第三种方法，以file的内容为邮件内.容发信<br>mail -s test  <a href="mailto:&#97;&#100;&#109;&#105;&#110;&#x40;&#97;&#105;&#x73;&#112;&#105;&#100;&#101;&#x72;&#46;&#x63;&#x6f;&#x6d;">&#97;&#100;&#109;&#105;&#110;&#x40;&#97;&#105;&#x73;&#112;&#105;&#100;&#101;&#x72;&#46;&#x63;&#x6f;&#x6d;</a> &lt; file #第三种方法，以file的内容为邮件内容发信<br>mail -s test -c <a href="mailto:&#97;&#x64;&#109;&#x69;&#x6e;&#64;&#97;&#x69;&#115;&#112;&#105;&#x64;&#101;&#114;&#46;&#99;&#111;&#x6d;">&#97;&#x64;&#109;&#x69;&#x6e;&#64;&#97;&#x69;&#115;&#112;&#105;&#x64;&#101;&#114;&#46;&#99;&#111;&#x6d;</a>  <a href="mailto:&#x72;&#111;&#111;&#116;&#x40;&#x61;&#105;&#115;&#112;&#x69;&#x64;&#101;&#114;&#46;&#x63;&#x6f;&#109;">&#x72;&#111;&#111;&#116;&#x40;&#x61;&#105;&#115;&#112;&#x69;&#x64;&#101;&#114;&#46;&#x63;&#x6f;&#109;</a>&lt; file #第四种方法，给多个用户发送邮件</li>
-</ol>
-
-        
-    </section>
-</article>
-
-
-    <article class="article" itemscope itemprop="blogPost">
-    
-    <header class="article-header">
-        
-        <h1 itemprop="name">
-            <a href="/blog/2019/08/03/docker/">docker</a>
-        </h1>
-        
-        <div class="article-meta clearfix">
-            <a class="article-date" href="https://alwaysskylll.github.io/blog/page/3/index.html">
-    
-    <i class="icon-calendar vm"></i>
-    
-    <time class="vm" datetime="2019-08-03T04:19:48.000Z" itemprop="datePublished">2019-08-03</time>
-</a>
-
-            
-<div class="article-tag-list">
-    <i class="icon-tag vm"></i>
-    <a class="article-tag-link" href="/blog/tags/%E5%BC%80%E5%8F%91/" rel="tag">开发</a>
-</div>
-
-
-        </div>
-    </header>
-    
-    <section class="article-body markdown-body">
-        
-        <p><strong>mac(10.12.6)中的docker （17.06.2-ce-mac27）不支持 -net host 模式。。。 部署个人博客，看了一晚上，端口能ping通，但是宿主机一直访问不到</strong></p>
-<blockquote>
-<p><a target="_blank" rel="noopener" href="https://www.oschina.net/question/2329725_2216168">https://www.oschina.net/question/2329725_2216168</a></p>
-</blockquote>
-<p>pipe 服务器运行命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach --name pipe --network=host \</span><br><span class="line">    b3log/pipe --mysql=&quot;yunggao:123456@(127.0.0.1:3306)/pipe?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&quot; --runtime_mode=prod --port=5897 --server=http://ghub.club</span><br></pre></td></tr></table></figure>
-
-<p>pipe 本地运行命令</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --detach --name pipe -p 5897:5897 -p 8888:8888 b3log/pipe --mysql=&quot;yunggao:123456@(192.168.3.26:3306)/pipe?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&quot; --runtime_mode=prod --port=5897 --server=http://localhost:5897</span><br></pre></td></tr></table></figure>
         
     </section>
 </article>
